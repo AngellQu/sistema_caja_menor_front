@@ -1,0 +1,44 @@
+.form {
+  margin-top: -55px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 90px;
+  right: 500px;
+  z-index: 999;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.p1 {
+  margin-left: 200px;
+  margin-top: 25px;
+}
+
+.p2 {
+  margin-top: 20px;
+  margin-left: 950px;
+}
+
+td {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.5rem;
+}
+
+th {
+  text-align: center;
+  font-size: 12px
+}
+
+::ng-deep .p-datatable td {
+  text-align: center;
+}

@@ -1,0 +1,22 @@
+<div class="container">
+    <img src="logoHotelGordonita.png" class="logo" />
+    <div class="form">
+
+        <input class="cedulaInput" pInputText placeholder="Cédula" id="cedula" [formControl]="cedula" />
+        <div *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)">
+            <small *ngIf="cedula.errors?.['required']">La cédula es obligatoria.</small>
+            <small *ngIf="cedula.errors?.['pattern']">La cédula debe contener solo números.</small>
+        </div>
+
+        <p-password placeholder="Contraseña" [toggleMask]="true" [formControl]="contrasenia" [feedback]="false" />
+        <div *ngIf="contrasenia.invalid && (contrasenia.dirty || contrasenia.touched)">
+            <small *ngIf="contrasenia.errors?.['required']">La contraseña es obligatoria.</small>
+        </div>
+
+        <div style="margin-top: 20px">
+            <p-button label="Iniciar Sesión" (onClick)="logIn()"
+                [style]="{'background-color': '#007bff','border-color':'#007bff', 'color': 'white', 'font-size': '20px', 'width':'370px', 'height': '55px'}"></p-button>
+        </div>
+    </div>
+</div>
+<p-toast position="top-center"/>

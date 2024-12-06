@@ -1,0 +1,72 @@
+<app-app-operation (add)="isVisible = $event" (search)="getIngresoHospedajeByIdHospedajeOrFecha($event)"
+  (delete)="deleteIngresoHospedaje()" (download)=" exportToExcel()"></app-app-operation>
+
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Registrar Ingreso Hospedaje">
+  <div style="margin-top: 20px">
+    <p-floatLabel [style]="{'margin-top': '25px'}">
+      <input pInputText id="idHospedaje" [style]="{ width: '250px' }" [formControl]="idHospedaje" />
+      <label style="color: black" for="idHospedaje">Id Hospedaje</label>
+    </p-floatLabel>
+  </div>
+  <div *ngIf="idHospedaje.invalid && (idHospedaje.dirty || idHospedaje.touched)">
+    <small *ngIf="idHospedaje.errors?.['required']">El Id del hospedaje es obligatorio.</small>
+    <small *ngIf="idHospedaje.errors?.['pattern']">El Id del hospedaje debe ser numérico.</small>
+  </div>
+
+  <div style="margin-top: 25px">
+    <p-floatLabel [style]="{'margin-top': '25px'}">
+      <p-dropdown [options]="opcionesMetodosPago" appendTo="body" inputId="metodoPago" [style]="{ width: '250px' }"
+        [showClear]="true" [checkmark]="true" [(ngModel)]="metodoPago" />
+      <label style="color: black" for="metodoPago">Método Pago</label>
+    </p-floatLabel>
+  </div>
+
+  <div style="margin-top: 25px">
+    <p-floatLabel [style]="{'margin-top': '25px'}">
+      <input pInputText id="monto" [formControl]="monto" [style]="{ width: '250px' }" />
+      <label style="color: black" for="fechaIngreso">Monto</label>
+    </p-floatLabel>
+  </div>
+  <div *ngIf="monto.invalid && (monto.dirty || monto.touched)">
+    <small *ngIf="monto.errors?.['required']">el monto es obligatorio.</small>
+    <small *ngIf="monto.errors?.['pattern']">el monto debe ser un númerico.</small>
+  </div>
+
+  <div style="margin-top: 35px">
+    <p-button (onClick)="cancelRecord()" [text]="true" label="Cancelar" [rounded]="true"
+      [style]="{'color': 'black', 'font-size': '10px', 'margin-left': '60px'}"></p-button>
+    <p-button (onClick)="createIngresoHospedaje()" label="Guardar" icon="pi pi-save" [rounded]="true"
+      [style]="{'background-color': 'limegreen','border-color':'limegreen', 'color': 'black', 'font-size': '10px', 'margin-left': '10px'}"></p-button>
+  </div>
+</p-dialog>
+
+<p-table dataKey="idHospedaje" [value]="ingresoHospedajes" scrollable="true"
+  scrollHeight="300px" class="small-table" [style]="{
+              'height':'300px',
+              'width': '700px',
+              'border-radius': '5px',
+              'overflow': 'hidden',
+              'margin-top':'20px',
+              'margin-left': '280px'}">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Id Hospedaje</th>
+      <th>Fecha</th>
+      <th>Método Pago</th>
+      <th>Monto</th>
+      <th>Id Recepcionista</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-IngresoHospedaje>
+    <tr>
+      <td>{{IngresoHospedaje.idHospedaje}}</td>
+      <td>{{IngresoHospedaje.fecha}}</td>
+      <td>{{IngresoHospedaje.metodoPago}}</td>
+      <td>{{IngresoHospedaje.monto}}</td>
+      <td>{{IngresoHospedaje.idRecepcionista}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-toast position="bottom-center" />
+<p-confirmDialog></p-confirmDialog>
+<p class="p2">Resultado:{{ingresoHospedajes.length}}</p>

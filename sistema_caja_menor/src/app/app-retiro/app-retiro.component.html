@@ -1,0 +1,75 @@
+<app-app-operation (add)="isVisible = $event" (delete)="deleteRetiro()" (download)="exportToExcel()"
+(search)="getRetiroByIdRetiranteOrFecha($event)"></app-app-operation>
+
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Registrar Retiro">
+    <div style="margin-top: 25px">
+        <p-floatLabel>
+            <input pInputText id="nombre" [formControl]="idRetirante" [style]="{ width: '250px' }" />
+            <label style="color: black" for="nombre">Id Retirante</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="idRetirante.invalid && (idRetirante.dirty || idRetirante.touched)">
+        <small *ngIf="idRetirante.errors?.['required']">El Id retirante es obligatorio.</small>
+        <small *ngIf="idRetirante.errors?.['pattern']">El Id retirante debe contener solo números.</small>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel>
+            <input pInputText id="cantidad" [formControl]="descripcion" [style]="{ width: '250px' }" />
+            <label style="color: black" for="cantidad">Descripción</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+        <small *ngIf="descripcion.errors?.['required']">La descripción obligatoria.</small>
+        <small *ngIf="descripcion.errors?.['pattern']">La descripción debe ser alfabética.</small>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel>
+            <input pInputText id="idHuesped" [formControl]="monto" [style]="{ width: '250px' }" />
+            <label style="color: black" for="idHuesped">Monto</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="monto.invalid && (monto.dirty || monto.touched)">
+        <small *ngIf="monto.errors?.['required']">El monto es obligatorio.</small>
+        <small *ngIf="monto.errors?.['pattern']">El monto debe ser numérico.</small>
+    </div>
+
+    <div style="margin-top: 20px">
+        <p-button (onClick)="cancelRecord()" [text]="true" label="Cancelar" [rounded]="true"
+            [style]="{'color': 'black', 'font-size': '10px', 'margin-left': '60px'}"></p-button>
+        <p-button (onClick)="createRetiro()"   label="Guardar" icon="pi pi-save" [rounded]="true"
+            [style]="{'background-color': 'limegreen','border-color':'limegreen', 'color': 'black', 'font-size': '10px', 'margin-left': '10px'}"></p-button>
+    </div>
+</p-dialog>
+
+<p-table dataKey="idRetirante" [value]="retiro" scrollable="true" scrollHeight="300px"
+    class="small-table" [style]="{
+              'height':'300px',
+              'width': '750px',
+              'border-radius': '5px',
+              'overflow': 'hidden',
+              'margin-top':'20px',
+              'margin-left': '230px'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Id Retirante</th>
+            <th>Fecha</th>
+            <th>Descripión</th>
+            <th>Monto</th>
+            <th>Id Recepcionista</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-retiro>
+        <tr>
+            <td>{{retiro.idRetirante}}</td>
+            <td>{{retiro.fecha}}</td>
+            <td>{{retiro.descripcion}}</td>
+            <td>{{retiro.monto}}</td>
+            <td>{{retiro.idRecepcionista}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toast position="bottom-center"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<p class="p2">Resultado:{{retiro.length}}</p>

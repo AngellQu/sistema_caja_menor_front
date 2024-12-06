@@ -1,0 +1,39 @@
+.p1 {
+  margin-left: 200px;
+  margin-top: 25px;
+}
+
+.p2 {
+  margin-top: 20px;
+  margin-left: 950px;
+}
+
+td {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.5rem;
+}
+
+th {
+  text-align: center;
+  font-size: 12px
+}
+
+.custom-date-input {
+  padding: 10px;
+}
+
+.date-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 25px;
+  color: #999;
+  transition: 0.2s;
+}
+
+::ng-deep .p-datatable td {
+  text-align: center;
+}

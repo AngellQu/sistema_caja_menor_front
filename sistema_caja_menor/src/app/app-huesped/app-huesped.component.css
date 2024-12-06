@@ -1,0 +1,21 @@
+.p2 {
+    margin-top: 20px;
+    margin-left: 950px;
+}
+
+td {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.5rem;
+}
+
+th {
+    text-align: center;
+    font-size: 12px
+}
+
+::ng-deep .p-datatable td {
+    text-align: center;
+}

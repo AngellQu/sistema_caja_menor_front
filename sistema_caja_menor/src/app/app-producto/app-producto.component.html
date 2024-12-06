@@ -1,0 +1,113 @@
+<app-app-operation (add)="isVisible = $event" (delete)="deleteProducto()" (search)="getProductoByIdOrNombre($event)"
+    (download)="exportToExcel()"></app-app-operation>
+
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Registrar Producto">
+    <div style="margin-top: 20px">
+        <p-floatLabel>
+            <input pInputText id="id" [formControl]="id" [style]="{ width: '250px' }" />
+            <label style="color: black" for="id">Id</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="id.invalid && (id.dirty || id.touched)">
+        <small *ngIf="id.errors?.['required']">El Id es obligatoria.</small>
+        <small *ngIf="id.errors?.['pattern']">El Id debe ser un número.</small>
+    </div>
+
+    <div style="margin-top: 20px">
+        <p-floatLabel>
+            <input pInputText id="nombre" [formControl]="nombre" [style]="{ width: '250px' }" />
+            <label style="color: black" for="nombre">Nombre</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+        <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['pattern']">El nombre debe contener solo letras.</small>
+    </div>
+
+    <div style="margin-top: 20px">
+        <p-floatLabel>
+            <input pInputText id="precio" [formControl]="precio" [style]="{ width: '250px' }" />
+            <label style="color: black" for="precio">Precio</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)">
+        <small *ngIf="precio.errors?.['required']">El precio es obligatorio.</small>
+        <small *ngIf="precio.errors?.['pattern']">El precio debe ser numérico.</small>
+    </div>
+
+    <div style="margin-top: 35px">
+        <p-button (onClick)="cancelRecord()" [text]="true" label="Cancelar" [rounded]="true"
+            [style]="{'color': 'black', 'font-size': '10px', 'margin-left': '60px'}"></p-button>
+        <p-button (onClick)="createProducto()" label="Guardar" icon="pi pi-save" [rounded]="true"
+            [style]="{'background-color': 'limegreen','border-color':'limegreen', 'color': 'black', 'font-size': '10px', 'margin-left': '10px'}"></p-button>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="isVisibleUpdate" [modal]="true" header="Modificar Producto">
+    <div style="margin-top: 25px">
+        <p-floatLabel>
+            <input pInputText id="nombre" [formControl]="nombre" [style]="{ width: '250px' }" />
+            <label style="color: black" for="nombre">Nombre</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+        <small *ngIf="nombre.errors?.['pattern']">El nombre debe contener solo letras.</small>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel>
+            <input pInputText id="precio" [formControl]="precio" [style]="{ width: '250px' }" />
+            <label style="color: black" for="precio">Precio</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)">
+        <small *ngIf="precio.errors?.['pattern']">El precio debe ser numérico.</small>
+    </div>
+
+    <div style="margin-top: 35px">
+        <p-button (onClick)="cancelRecord()" [text]="true" label="Cancelar" [rounded]="true"
+            [style]="{'color': 'black', 'font-size': '10px', 'margin-left': '60px'}"></p-button>
+        <p-button (onClick)="updateProducto()" label="Actualizar" [rounded]="true"
+            [style]="{'background-color': 'limegreen','border-color':'limegreen', 'color': 'black', 'font-size': '10px', 'margin-left': '10px'}"></p-button>
+    </div>
+</p-dialog>
+
+<p-table [(selection)]="selectedProductos" dataKey="id" [value]="productos" scrollable="true" scrollHeight="300px"
+    class="small-table" [style]="{
+              'height':'300px',
+              'width': '700px',
+              'border-radius': '5px',
+              'overflow': 'hidden',
+              'margin-top':'20px',
+              'margin-left': '280px'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th><p-tableHeaderCheckbox /></th>
+            <th>Acción</th>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-Producto>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="Producto" />
+            </td>
+            <td>
+                <p-button icon="pi pi-pen-to-square" (onClick)="editProducto(Producto)" [text]="true"
+                    class="p-button-text" [style]="{ 
+                  'color': 'orange',
+                  'border-radius': '5px', 
+                  'padding': '0px'
+                   }" />
+            </td>
+            <td>{{Producto.id}}</td>
+            <td>{{Producto.nombre}}</td>
+            <td>{{Producto.precio}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toast position="bottom-center"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<p class="p2">Resultado:{{productos.length}}</p>

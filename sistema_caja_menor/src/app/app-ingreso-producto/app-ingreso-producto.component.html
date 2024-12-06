@@ -1,0 +1,86 @@
+<app-app-operation (add)="isVisible = $event" (download)="exportToExcel()" (delete)="deleteIngresoProducto()"
+    (search)="  getIngresoProductoByIdHuespedOrFecha($event)"></app-app-operation>
+
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Registrar Ingreso Producto">
+    <div style="margin-top: 20px">
+        <p-floatLabel>
+            <input pInputText id="nombre" [formControl]="nombre" [style]="{ width: '250px' }" />
+            <label style="color: black" for="nombre">Nombre</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+        <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['pattern']">El nombre debe contener solo letras.</small>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel [style]="{'margin-top': '25px'}">
+            <input pInputText id="cantidad" [formControl]="cantidad" [style]="{ width: '250px' }" />
+            <label style="color: black" for="cantidad">Cantidad</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
+        <small *ngIf="cantidad.errors?.['required']">La cantidad es obligatoria.</small>
+        <small *ngIf="cantidad.errors?.['pattern']">La cantidad debe ser un número.</small>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel [style]="{'margin-top': '25px'}">
+            <p-dropdown [options]="opcionesMetodosPago" inputId="metodoPago" [style]="{ width: '250px' }"
+                [showClear]="true" [checkmark]="true" [(ngModel)]="metodoPago" />
+            <label style="color: black" for="metodoPago">Método Pago</label>
+        </p-floatLabel>
+    </div>
+
+    <div style="margin-top: 25px">
+        <p-floatLabel [style]="{'margin-top': '25px'}">
+            <input pInputText id="idHuesped" [formControl]="idHuesped" [style]="{ width: '250px' }" />
+            <label style="color: black" for="idHuesped">Id Huésped</label>
+        </p-floatLabel>
+    </div>
+    <div *ngIf="idHuesped.invalid && (idHuesped.dirty || idHuesped.touched)">
+        <small *ngIf="idHuesped.errors?.['required']">El Id del huésped es obligatorio.</small>
+        <small *ngIf="idHuesped.errors?.['pattern']">El Id del huésped debe ser numérico.</small>
+    </div>
+
+    <div style="margin-top: 35px">
+        <p-button (onClick)="cancelRecord()" [text]="true" label="Cancelar" [rounded]="true"
+            [style]="{'color': 'black', 'font-size': '10px', 'margin-left': '60px'}"></p-button>
+        <p-button (onClick)="createIngresoProducto()"  label="Guardar" icon="pi pi-save" [rounded]="true"
+            [style]="{'background-color': 'limegreen','border-color':'limegreen', 'color': 'black', 'font-size': '10px', 'margin-left': '10px'}"></p-button>
+    </div>
+</p-dialog>
+<p-table dataKey="idHuesped" [value]="ingresoProductos" scrollable="true"
+    scrollHeight="300px" class="small-table" [style]="{
+              'height':'300px',
+              'width': '750px',
+              'border-radius': '5px',
+              'overflow': 'hidden',
+              'margin-top':'20px',
+              'margin-left': '230px'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Id Producto</th>
+            <th>Cantidad</th>
+            <th>Monto</th>
+            <th>Método Pago</th>
+            <th>Fecha</th>
+            <th>Id Huésped</th>
+            <th>Id Recepcionista</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-IngresoProducto>
+        <tr>
+            <td>{{IngresoProducto.idProducto}}</td>
+            <td>{{IngresoProducto.cantidad}}</td>
+            <td>{{IngresoProducto.monto}}</td>
+            <td>{{IngresoProducto.metodoPago}}</td>
+            <td>{{IngresoProducto.fecha}}</td>
+            <td>{{IngresoProducto.idHuesped}}</td>
+            <td>{{IngresoProducto.idRecepcionista}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toast position="bottom-center"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<p class="p2">Resultado:{{ingresoProductos.length}}</p>
